@@ -1,0 +1,53 @@
+[33mcommit 2296d3b1d43ddf75c4eee2151e2b146676b442c5[m
+Author: James <mymath.tutor.james@gmail.com>
+Date:   Fri Jul 22 10:56:08 2016 -0500
+
+    Add english numbers as a list view to the numbers activity and hook up using java
+
+[33mcommit 42621283439deb815d49af8a4acedf87a908123d[m
+Author: James <mymath.tutor.james@gmail.com>
+Date:   Fri Jul 22 10:55:20 2016 -0500
+
+    create list_item layout basic framework
+
+[33mcommit 2c91944b343188294b3a103da616c824deeddb2a[m
+Author: James <mymath.tutor.james@gmail.com>
+Date:   Thu Jul 21 15:49:11 2016 -0500
+
+    make main activity scrollable to handle smaller screens
+
+[33mcommit a9564ae1f0cbc3358bb62a8b8c83b3f6b59b61ca[m
+Author: Beginning Android <udacityandroiddemo@gmail.com>
+Date:   Wed Feb 10 06:12:13 2016 -0800
+
+    1.4 Create OnClickListener to handle button click on numbers category
+
+[33mcommit efef6a81f9574128b5419c79b189f8fee2b7238f[m
+Author: Beginning Android <udacityandroiddemo@gmail.com>
+Date:   Wed Feb 10 06:08:10 2016 -0800
+
+    1.3 Modify NumbersActivity label in AndroidManifest.xml
+
+[33mcommit 952710d08e817861e515139549a9d840e7afb086[m
+Author: Beginning Android <udacityandroiddemo@gmail.com>
+Date:   Wed Feb 10 06:05:43 2016 -0800
+
+    1.2 Send explicit intent to open the NumbersActivity
+
+[33mcommit 51e935b8a653c72e22acc9c34282fe88da79dbf3[m
+Author: Beginning Android <udacityandroiddemo@gmail.com>
+Date:   Wed Feb 10 04:41:18 2016 -0800
+
+    1.1 Create new activities
+
+[33mcommit a6df7e73966c65594ae4c35c89b3e691d0fe9c44[m
+Author: Beginning Android <udacityandroiddemo@gmail.com>
+Date:   Wed Feb 10 03:07:09 2016 -0800
+
+    Starter code
+
+[33mcommit 3206ef862c43c010101238dd84ddcbac7ccfcc77[m
+Author: Beginning Android <udacityandroiddemo@gmail.com>
+Date:   Tue Feb 9 11:51:43 2016 -0800
+
+    New project created
