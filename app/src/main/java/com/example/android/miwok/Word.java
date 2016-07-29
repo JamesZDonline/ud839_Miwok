@@ -11,12 +11,21 @@ public class Word {
     //Miwok word
     private String miwokTranslation;
 
+    //Image to go with word
+    private int mImageResourceID;
+
     /**
      * Constructs Word object with default empty words
      */
     public Word(String defaultWord, String miwokWord){
         defaultTranslation = defaultWord;
         miwokTranslation = miwokWord;
+    }
+
+    public Word(String defaultWord, String miwokWord, int imageResourceID){
+        defaultTranslation = defaultWord;
+        miwokTranslation = miwokWord;
+        mImageResourceID = imageResourceID;
     }
 
     /**
@@ -34,6 +43,8 @@ public class Word {
     public String getDefaultWord(){
         return defaultTranslation;
     }
+
+    public int getImageResource() {return mImageResourceID;}
 
 
 
