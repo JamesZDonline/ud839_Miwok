@@ -19,6 +19,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -45,16 +46,16 @@ public class NumbersActivity extends AppCompatActivity {
 
 
         WordAdapter adapter = new WordAdapter(this,words,R.color.category_numbers);
-        sayWord = MediaPlayer.create(this,R.raw.)
+        sayWord = MediaPlayer.create(this,R.raw.number_one);
 
         ListView listView = (ListView) findViewById(R.id.list);
-        listView.setOnClickListener(new View.OnClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                sayWord.start();
             }
         });
+
 
         listView.setAdapter(adapter);
 
