@@ -52,8 +52,16 @@ public class ColorsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int wordAudioID = words.get(i).getAudioResource();
+                releaseMediaPlayer();
                 sayWord = MediaPlayer.create(ColorsActivity.this,wordAudioID);
                 sayWord.start();
+                sayWord.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        releaseMediaPlayer();
+                    }
+                });
+
             }
         });
 
@@ -63,5 +71,19 @@ public class ColorsActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        if (sayWord != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            sayWord.release();
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            sayWord = null;
+        }
     }
 }
