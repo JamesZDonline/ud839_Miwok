@@ -14,18 +14,23 @@ public class Word {
     //Image to go with word
     private int mImageResourceID;
 
+    //Sound to go with word
+    private int mAudioResourceID;
+
     /**
      * Constructs Word object with default empty words
      */
-    public Word(String defaultWord, String miwokWord){
+    public Word(String defaultWord, String miwokWord, int audioResourceID){
         defaultTranslation = defaultWord;
         miwokTranslation = miwokWord;
+        mAudioResourceID = audioResourceID;
     }
 
-    public Word(String defaultWord, String miwokWord, int imageResourceID){
+    public Word(String defaultWord, String miwokWord, int audioResourceID, int imageResourceID){
         defaultTranslation = defaultWord;
         miwokTranslation = miwokWord;
         mImageResourceID = imageResourceID;
+        mAudioResourceID = audioResourceID;
     }
 
     /**
@@ -45,6 +50,8 @@ public class Word {
     }
 
     public int getImageResource() {return mImageResourceID;}
+
+    public int getAudioResource() {return mAudioResourceID;}
 
 
 
