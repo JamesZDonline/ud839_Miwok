@@ -28,6 +28,13 @@ import java.util.ArrayList;
 public class NumbersActivity extends AppCompatActivity {
     private MediaPlayer sayWord;
 
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +63,7 @@ public class NumbersActivity extends AppCompatActivity {
                 releaseMediaPlayer();
                 sayWord = MediaPlayer.create(NumbersActivity.this,wordAudioID);
                 sayWord.start();
-                sayWord.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mediaPlayer) {
-                        releaseMediaPlayer();
-                    }
-                });
+                sayWord.setOnCompletionListener(mCompletionListener);
             }
         });
 
