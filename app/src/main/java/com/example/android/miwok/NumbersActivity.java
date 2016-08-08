@@ -15,8 +15,11 @@
  */
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,13 +33,40 @@ public class NumbersActivity extends AppCompatActivity {
     private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
-            releaseMediaPlayer();
+            releaseMediaPlayer();}
+    };
+
+    private AudioManager audioManager;
+    private AudioManager.OnAudioFocusChangeListener afChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                    focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                //If loss is transient pause the word
+                sayWord.pause();
+                sayWord.seekTo(0);
+
+            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                //if you get the focus back, resume playing
+                sayWord.start();
+
+            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                //If you lose focus all together release the resources
+                releaseMediaPlayer();
+
+            }
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
         setContentView(R.layout.word_list);
         final ArrayList<Word> words = new ArrayList<Word>();
         words.add(new Word("one", "lutti",R.raw.number_one,R.drawable.number_one));
@@ -58,11 +88,20 @@ public class NumbersActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 int wordAudioID = words.get(i).getAudioResource();
                 releaseMediaPlayer();
-                sayWord = MediaPlayer.create(NumbersActivity.this,wordAudioID);
-                sayWord.start();
-                sayWord.setOnCompletionListener(mCompletionListener);
+
+                audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                int audioFocusResult = audioManager.requestAudioFocus(afChangeListener,
+                        AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if(audioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+                    sayWord = MediaPlayer.create(NumbersActivity.this,wordAudioID);
+                    sayWord.start();
+                    sayWord.setOnCompletionListener(mCompletionListener);
+                }
+
             }
         });
 
@@ -92,6 +131,8 @@ public class NumbersActivity extends AppCompatActivity {
             // setting the media player to null is an easy way to tell that the media player
             // is not configured to play an audio file at the moment.
             sayWord = null;
+
+            audioManager.abandonAudioFocus(afChangeListener);
         }
     }
 }

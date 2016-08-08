@@ -15,6 +15,8 @@
  */
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +36,29 @@ public class ColorsActivity extends AppCompatActivity {
         }
     };
 
+    private AudioManager audioManager;
+    private AudioManager.OnAudioFocusChangeListener afChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+
+                @Override
+                public void onAudioFocusChange(int focusChange) {
+                    if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                            focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                        //If loss is transient pause the word
+                        sayWord.pause();
+                        sayWord.seekTo(0);
+
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                        //if you get the focus back, resume playing
+                        sayWord.start();
+
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                        //If you lose focus all together release the resources
+                        releaseMediaPlayer();
+
+                    }
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +85,15 @@ public class ColorsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 int wordAudioID = words.get(i).getAudioResource();
                 releaseMediaPlayer();
-                sayWord = MediaPlayer.create(ColorsActivity.this,wordAudioID);
-                sayWord.start();
-                sayWord.setOnCompletionListener(mCompletionListener);
+                audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                int audioFocusResult = audioManager.requestAudioFocus(afChangeListener,
+                        AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if(audioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    sayWord = MediaPlayer.create(ColorsActivity.this, wordAudioID);
+                    sayWord.start();
+                    sayWord.setOnCompletionListener(mCompletionListener);
+                }
 
             }
         });
@@ -93,6 +124,8 @@ public class ColorsActivity extends AppCompatActivity {
             // setting the media player to null is an easy way to tell that the media player
             // is not configured to play an audio file at the moment.
             sayWord = null;
+
+            audioManager.abandonAudioFocus(afChangeListener);
         }
     }
 }
